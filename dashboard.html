@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ڈیش بورڈ - حافظ قرآن</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+
+        .arabic {
+            font-family: 'Amiri', serif;
+            direction: rtl;
+        }
+
+        /* Dashboard Layout */
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(135deg, #2c5530, #1e3a21);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .sidebar-header h1 {
+            color: #f4d03f;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-header p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-right: 3px solid transparent;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(244, 208, 63, 0.1);
+            border-right-color: #f4d03f;
+            color: #f4d03f;
+        }
+
+        .nav-item i {
+            margin-left: 1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-right: 280px;
+            padding: 2rem;
+        }
+
+        .header {
+            background: white;
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h2 {
+            color: #2c5530;
+            font-size: 1.8rem;
+        }
+
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-info {
+            text-align: left;
+        }
+
+        .user-info h3 {
+            color: #2c5530;
+            font-size: 1rem;
+        }
+
+        .user-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card.students i {
+            color: #3498db;
+        }
+
+        .stat-card.applications i {
+            color: #e74c3c;
+        }
+
+        .stat-card.courses i {
+            color: #2ecc71;
+        }
+
+        .stat-card.revenue i {
+            color: #f39c12;
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            color: #2c5530;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card p {
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: #f8f9fa;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header h3 {
+            color: #2c5530;
+            font-size: 1.3rem;
+        }
+
+        .section-content {
+            padding: 2rem;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: right;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        th {
+            background: #f8f9fa;
+            color: #2c5530;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #f4d03f;
+            color: #2c5530;
+        }
+
+        .btn-primary:hover {
+            background: #e6c842;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-info {
+            background: #3498db;
+            color: white;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c5530;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #f4d03f;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Status badges */
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .modal-header h3 {
+            color: #2c5530;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* Mobile Responsive */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #2c5530;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-right: 0;
+                padding: 1rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .header {
+                padding: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .table-container {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 0.5rem;
+            }
+        }
+
+        /* Hidden sections */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="arabic">حافظ قرآن</h1>
+                <p>ایڈمن ڈیش بورڈ</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    ڈیش بورڈ
+                </a>
+                <a href="#" class="nav-item" data-section="students">
+                    <i class="fas fa-users"></i>
+                    طلباء
+                </a>
+                <a href="#" class="nav-item" data-section="applications">
+                    <i class="fas fa-file-alt"></i>
+                    داخلہ فارمز
+                </a>
+                <a href="#" class="nav-item" data-section="courses">
+                    <i class="fas fa-book"></i>
+                    کورسز
+                </a>
+                <a href="#" class="nav-item" data-section="payments">
+                    <i class="fas fa-credit-card"></i>
+                    فیس
+                </a>
+                <a href="#" class="nav-item" data-section="reports">
+                    <i class="fas fa-chart-bar"></i>
+                    رپورٹس
+                </a>
+                <a href="#" class="nav-item" data-section="zoom-management">
+                    <i class="fas fa-video"></i>
+                    Zoom کلاسز
+                </a>
+                <a href="#" class="nav-item" data-section="settings">
+                    <i class="fas fa-cog"></i>
+                    سیٹنگز
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <div>
+                    <button class="mobile-menu-btn" id="mobileMenuBtn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h2 id="pageTitle">ڈیش بورڈ</h2>
+                </div>
+                <div class="header-info">
+                    <div class="user-info">
+                        <h3>ایڈمن</h3>
+                        <p>حافظ قرآن</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="window.location.href='student-portal.html'" target="_blank">
+                        <i class="fas fa-user-graduate"></i> طالب علم پورٹل
+                    </button>
+                    <button class="btn btn-primary" onclick="window.location.href='index.html'">
+                        <i class="fas fa-home"></i> ویب سائٹ
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dashboard Section -->
+            <div id="dashboard" class="section active">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card students">
+                        <i class="fas fa-users"></i>
+                        <h3 id="totalStudents">0</h3>
+                        <p>کل طلباء</p>
+                    </div>
+                    <div class="stat-card applications">
+                        <i class="fas fa-file-alt"></i>
+                        <h3 id="totalApplications">0</h3>
+                        <p>داخلہ فارمز</p>
+                    </div>
+                    <div class="stat-card courses">
+                        <i class="fas fa-book"></i>
+                        <h3 id="activeCourses">3</h3>
+                        <p>فعال کورسز</p>
+                    </div>
+                    <div class="stat-card revenue">
+                        <i class="fas fa-rupee-sign"></i>
+                        <h3 id="monthlyRevenue">0</h3>
+                        <p>ماہانہ آمدنی</p>
+                    </div>
+                </div>
+
+                <!-- Recent Applications -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3>حالیہ داخلہ فارمز</h3>
+                        <a href="#" class="btn btn-primary" onclick="showSection('applications')">تمام دیکھیں</a>
+                    </div>
+                    <div class="section-content">
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>نام</th>
+                                        <th>عمر</th>
+                                        <th>کورس</th>
+                                        <th>تاریخ</th>
+                                        <th>حالت</th>
+                                        <th>عمل</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentApplications">
+                                    <!-- Dynamic content will be inserted here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Students Section -->
+            <div id="students" class="section">
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3>طلباء کی فہرست</h3>
+                        <button class="btn btn-primary" onclick="openModal('addStudentModal')">
+                            <i class="fas fa-plus"></i> نیا طالب علم
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>نام</th>
+                                        <th>والد کا نام</th>
+                                        <th>عمر</th>
+                                        <th>کورس</th>
+                                        <th>فون</th>
+                                        <th>تاریخ داخلہ</th>
+                                        <th>عمل</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="studentsTable">
+                                    <!-- Dynamic content will be inserted here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Applications Section -->
+            <div id="applications" class="section">
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3>داخلہ فارمز</h3>
+                        <div>
+                            <select id="statusFilter" onchange="filterApplications()">
+                                <option value="">تمام</option>
+                                <option value="pending">زیر التواء</option>
+                                <option value="approved">منظور شدہ</option>
+                                <option value="rejected">مسترد</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>نام</th>
+                                        <th>والد کا نام</th>
+                                        <th>عمر</th>
+                                        <th>جنس</th>
+                                        <th>کورس</th>
+                                        <th>فون</th>
+                                        <th>تاریخ</th>
+                                        <th>حالت</th>
+                                        <th>عمل</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="applicationsTable">
+                                    <!-- Dynamic content will be inserted here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Courses Section -->
+            <div id="courses" class="section">
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3>کورسز کی انتظامیہ</h3>
+                        <button class="btn btn-primary" onclick="openModal('addCourseModal')">
+                            <i class="fas fa-plus"></i> نیا کورس
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>کورس نام</th>
+                                        <th>تفصیل</th>
+                                        <th>فیس</th>
+                                        <th>طلباء</th>
+                                        <th>حالت</th>
+                                        <th>عمل</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="coursesTable">
+                                    <tr>
+                                        <td>بنیادی حفظ</td>
+                                        <td>قرآن مجید کے پہلے جزو سے شروع</td>
+                                        <td>2,500 روپے/مہینہ</td>
+                                        <td>15</td>
+                                        <td><span class="status-badge status-approved">فعال</span></td>
+                                        <td>
+                                            <button class="btn btn-info">ترمیم</button>
+                                            <button class="btn btn-danger">حذف</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>مکمل حفظ</td>
+                                        <td>پورے قرآن مجید کو حفظ کرنا</td>
+                                        <td>3,500 روپے/مہینہ</td>
+                                        <td>8</td>
+                                        <td><span class="status-badge status-approved">فعال</span></td>
+                                        <td>
+                                            <button class="btn btn-info">ترمیم</button>
+                                            <button class="btn btn-danger">حذف</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>تجوید کورس</td>
+                                        <td>قرآن کی صحیح تلفظ کی تعلیم</td>
+                                        <td>2,000 روپے/مہینہ</td>
+                                        <td>12</td>
+                                        <td><span class="status-badge status-approved">فعال</span></td>
+                                        <td>
+                                            <button class="btn btn-info">ترمیم</button>
+                                            <button class="btn btn-danger">حذف</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payments Section -->
+            <div id="payments" class="section">
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3>فیس کی انتظامیہ</h3>
+                        <button class="btn btn-primary" onclick="openModal('addPaymentModal')">
+                            <i class="fas fa-plus"></i> نئی فیس
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>طلبہ کا نام</th>
+                                        <th>کورس</th>
+                                        <th>ماہ</th>
+                                        <th>رقم</th>
+                                        <th>تاریخ</th>
+                                        <th>حالت</th>
+                                        <th>عمل</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="paymentsTable">
+                                    <!-- Dynamic content will be inserted here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Section -->
+            <div id="reports" class="section">
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3>رپورٹس</h3>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>شروع کی تاریخ</label>
+                                <input type="date" id="startDate">
+                            </div>
+                            <div class="form-group">
+                                <label>اختتام کی تاریخ</label>
+                                <input type="date" id="endDate">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="generateReport()">رپورٹ بنائیں</button>
+                        <div id="reportContent" style="margin-top: 2rem;">
+                            <!-- Report content will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Zoom Management Section -->
+            <div id="zoom-management" class="section">
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3>Zoom کلاسز کی انتظامیہ</h3>
+                        <button class="btn btn-primary" onclick="openModal('addZoomClassModal')">
+                            <i class="fas fa-plus"></i> نئی Zoom کلاس
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>کلاس نام</th>
+                                        <th>استاد</th>
+                                        <th>وقت</th>
+                                        <th>میٹنگ ID</th>
+                                        <th>پاس کوڈ</th>
+                                        <th>حالت</th>
+                                        <th>عمل</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="zoomClassesTable">
+                                    <tr>
+                                        <td>بنیادی حفظ کلاس</td>
+                                        <td>مولانا احمد</td>
+                                        <td>صبح 9:00 - 10:30</td>
+                                        <td>123 456 7890</td>
+                                        <td>123456</td>
+                                        <td><span class="status-badge status-approved">فعال</span></td>
+                                        <td>
+                                            <button class="btn btn-info">ترمیم</button>
+                                            <button class="btn btn-danger">حذف</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>مکمل حفظ کلاس</td>
+                                        <td>مولانا محمد</td>
+                                        <td>شام 5:00 - 6:30</td>
+                                        <td>234 567 8901</td>
+                                        <td>234567</td>
+                                        <td><span class="status-badge status-approved">فعال</span></td>
+                                        <td>
+                                            <button class="btn btn-info">ترمیم</button>
+                                            <button class="btn btn-danger">حذف</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>تجوید کلاس</td>
+                                        <td>مولانا علی</td>
+                                        <td>صبح 11:00 - 12:30</td>
+                                        <td>345 678 9012</td>
+                                        <td>345678</td>
+                                        <td><span class="status-badge status-approved">فعال</span></td>
+                                        <td>
+                                            <button class="btn btn-info">ترمیم</button>
+                                            <button class="btn btn-danger">حذف</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div id="settings" class="section">
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3>سیٹنگز</h3>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>ادارے کا نام</label>
+                            <input type="text" value="حافظ قرآن" id="instituteName">
+                        </div>
+                        <div class="form-group">
+                            <label>ایڈریس</label>
+                            <textarea id="instituteAddress">کراچی، پاکستان</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>فون نمبر</label>
+                            <input type="tel" value="+92 300 1234567" id="institutePhone">
+                        </div>
+                        <div class="form-group">
+                            <label>ای میل</label>
+                            <input type="email" value="info@hafizquran.com" id="instituteEmail">
+                        </div>
+                        <button class="btn btn-primary" onclick="saveSettings()">سیٹنگز محفوظ کریں</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Student Modal -->
+    <div id="addStudentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>نیا طالب علم شامل کریں</h3>
+                <button class="close-btn" onclick="closeModal('addStudentModal')">&times;</button>
+            </div>
+            <form id="addStudentForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>طلبہ کا نام *</label>
+                        <input type="text" id="studentName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>والد کا نام *</label>
+                        <input type="text" id="fatherName" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>عمر *</label>
+                        <input type="number" id="studentAge" min="5" max="25" required>
+                    </div>
+                    <div class="form-group">
+                        <label>جنس *</label>
+                        <select id="studentGender" required>
+                            <option value="">منتخب کریں</option>
+                            <option value="male">مرد</option>
+                            <option value="female">خواتین</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>فون نمبر *</label>
+                        <input type="tel" id="studentPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>کورس *</label>
+                        <select id="studentCourse" required>
+                            <option value="">منتخب کریں</option>
+                            <option value="basic-hifz">بنیادی حفظ</option>
+                            <option value="complete-hifz">مکمل حفظ</option>
+                            <option value="tajweed">تجوید</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>پتہ *</label>
+                    <textarea id="studentAddress" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">طالب علم شامل کریں</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Sample data (in real app, this would come from a database)
+        let applications = [];
+        let students = [];
+        let payments = [];
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            updateStats();
+            updateRecentApplications();
+            updateStudentsTable();
+            updateApplicationsTable();
+            updatePaymentsTable();
+        });
+
+        // Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const section = this.getAttribute('data-section');
+                showSection(section);
+                
+                // Update active nav item
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.add('active');
+            
+            // Update page title
+            const titles = {
+                'dashboard': 'ڈیش بورڈ',
+                'students': 'طلباء',
+                'applications': 'داخلہ فارمز',
+                'courses': 'کورسز',
+                'payments': 'فیس',
+                'reports': 'رپورٹس',
+                'zoom-management': 'Zoom کلاسز',
+                'settings': 'سیٹنگز'
+            };
+            document.getElementById('pageTitle').textContent = titles[sectionName];
+        }
+
+        function loadData() {
+            // Load applications from localStorage
+            const savedApplications = localStorage.getItem('hafizQuranApplications');
+            if (savedApplications) {
+                applications = JSON.parse(savedApplications);
+            }
+
+            // Load students from localStorage
+            const savedStudents = localStorage.getItem('hafizQuranStudents');
+            if (savedStudents) {
+                students = JSON.parse(savedStudents);
+            }
+
+            // Load payments from localStorage
+            const savedPayments = localStorage.getItem('hafizQuranPayments');
+            if (savedPayments) {
+                payments = JSON.parse(savedPayments);
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('hafizQuranApplications', JSON.stringify(applications));
+            localStorage.setItem('hafizQuranStudents', JSON.stringify(students));
+            localStorage.setItem('hafizQuranPayments', JSON.stringify(payments));
+        }
+
+        function updateStats() {
+            document.getElementById('totalStudents').textContent = students.length;
+            document.getElementById('totalApplications').textContent = applications.length;
+            
+            // Calculate monthly revenue
+            const currentMonth = new Date().getMonth();
+            const currentYear = new Date().getFullYear();
+            const monthlyRevenue = payments
+                .filter(payment => {
+                    const paymentDate = new Date(payment.date);
+                    return paymentDate.getMonth() === currentMonth && paymentDate.getFullYear() === currentYear;
+                })
+                .reduce((sum, payment) => sum + payment.amount, 0);
+            
+            document.getElementById('monthlyRevenue').textContent = monthlyRevenue.toLocaleString();
+        }
+
+        function updateRecentApplications() {
+            const tbody = document.getElementById('recentApplications');
+            const recent = applications.slice(-5).reverse();
+            
+            tbody.innerHTML = recent.map(app => `
+                <tr>
+                    <td>${app.studentName}</td>
+                    <td>${app.age} سال</td>
+                    <td>${getCourseName(app.courseInterest)}</td>
+                    <td>${formatDate(app.date)}</td>
+                    <td><span class="status-badge status-${app.status}">${getStatusText(app.status)}</span></td>
+                    <td>
+                        <button class="btn btn-info" onclick="viewApplication(${app.id})">دیکھیں</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateStudentsTable() {
+            const tbody = document.getElementById('studentsTable');
+            
+            tbody.innerHTML = students.map(student => `
+                <tr>
+                    <td>${student.studentName}</td>
+                    <td>${student.fatherName}</td>
+                    <td>${student.age} سال</td>
+                    <td>${getCourseName(student.course)}</td>
+                    <td>${student.phone}</td>
+                    <td>${formatDate(student.admissionDate)}</td>
+                    <td>
+                        <button class="btn btn-info" onclick="editStudent(${student.id})">ترمیم</button>
+                        <button class="btn btn-danger" onclick="deleteStudent(${student.id})">حذف</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateApplicationsTable() {
+            const tbody = document.getElementById('applicationsTable');
+            const filtered = filterApplicationsByStatus();
+            
+            tbody.innerHTML = filtered.map(app => `
+                <tr>
+                    <td>${app.studentName}</td>
+                    <td>${app.fatherName}</td>
+                    <td>${app.age} سال</td>
+                    <td>${app.gender === 'male' ? 'مرد' : 'خواتین'}</td>
+                    <td>${getCourseName(app.courseInterest)}</td>
+                    <td>${app.parentPhone}</td>
+                    <td>${formatDate(app.date)}</td>
+                    <td><span class="status-badge status-${app.status}">${getStatusText(app.status)}</span></td>
+                    <td>
+                        <button class="btn btn-success" onclick="approveApplication(${app.id})">منظور</button>
+                        <button class="btn btn-danger" onclick="rejectApplication(${app.id})">مسترد</button>
+                        <button class="btn btn-info" onclick="viewApplication(${app.id})">دیکھیں</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updatePaymentsTable() {
+            const tbody = document.getElementById('paymentsTable');
+            
+            tbody.innerHTML = payments.map(payment => `
+                <tr>
+                    <td>${payment.studentName}</td>
+                    <td>${getCourseName(payment.course)}</td>
+                    <td>${payment.month}</td>
+                    <td>${payment.amount.toLocaleString()} روپے</td>
+                    <td>${formatDate(payment.date)}</td>
+                    <td><span class="status-badge status-${payment.status}">${getStatusText(payment.status)}</span></td>
+                    <td>
+                        <button class="btn btn-info" onclick="editPayment(${payment.id})">ترمیم</button>
+                        <button class="btn btn-danger" onclick="deletePayment(${payment.id})">حذف</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterApplicationsByStatus() {
+            const status = document.getElementById('statusFilter').value;
+            return status ? applications.filter(app => app.status === status) : applications;
+        }
+
+        function filterApplications() {
+            updateApplicationsTable();
+        }
+
+        function getCourseName(courseCode) {
+            const courses = {
+                'basic-hifz': 'بنیادی حفظ',
+                'complete-hifz': 'مکمل حفظ',
+                'tajweed': 'تجوید'
+            };
+            return courses[courseCode] || courseCode;
+        }
+
+        function getStatusText(status) {
+            const statuses = {
+                'pending': 'زیر التواء',
+                'approved': 'منظور شدہ',
+                'rejected': 'مسترد'
+            };
+            return statuses[status] || status;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ur-PK');
+        }
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Application management
+        function approveApplication(appId) {
+            const app = applications.find(a => a.id === appId);
+            if (app) {
+                app.status = 'approved';
+                
+                // Add to students
+                const student = {
+                    id: Date.now(),
+                    studentName: app.studentName,
+                    fatherName: app.fatherName,
+                    age: app.age,
+                    gender: app.gender,
+                    phone: app.parentPhone,
+                    course: app.courseInterest,
+                    address: app.address,
+                    admissionDate: new Date().toISOString(),
+                    quranKnowledge: app.quranKnowledge
+                };
+                students.push(student);
+                
+                saveData();
+                updateStats();
+                updateRecentApplications();
+                updateStudentsTable();
+                updateApplicationsTable();
+                
+                alert(`${app.studentName} کا داخلہ منظور کر دیا گیا ہے۔`);
+            }
+        }
+
+        function rejectApplication(appId) {
+            const app = applications.find(a => a.id === appId);
+            if (app) {
+                app.status = 'rejected';
+                saveData();
+                updateApplicationsTable();
+                alert(`${app.studentName} کا داخلہ مسترد کر دیا گیا ہے۔`);
+            }
+        }
+
+        function viewApplication(appId) {
+            const app = applications.find(a => a.id === appId);
+            if (app) {
+                const details = `
+نام: ${app.studentName}
+والد کا نام: ${app.fatherName}
+عمر: ${app.age} سال
+جنس: ${app.gender === 'male' ? 'مرد' : 'خواتین'}
+فون: ${app.parentPhone}
+کورس: ${getCourseName(app.courseInterest)}
+پتہ: ${app.address}
+قرآن کی معلومات: ${app.quranKnowledge || 'نہیں دی گئی'}
+تاریخ: ${formatDate(app.date)}
+حالت: ${getStatusText(app.status)}
+                `;
+                alert(details);
+            }
+        }
+
+        // Student management
+        function editStudent(studentId) {
+            const student = students.find(s => s.id === studentId);
+            if (student) {
+                // Populate form with student data
+                document.getElementById('studentName').value = student.studentName;
+                document.getElementById('fatherName').value = student.fatherName;
+                document.getElementById('studentAge').value = student.age;
+                document.getElementById('studentGender').value = student.gender;
+                document.getElementById('studentPhone').value = student.phone;
+                document.getElementById('studentCourse').value = student.course;
+                document.getElementById('studentAddress').value = student.address;
+                
+                openModal('addStudentModal');
+            }
+        }
+
+        function deleteStudent(studentId) {
+            if (confirm('کیا آپ واقعی اس طالب علم کو حذف کرنا چاہتے ہیں؟')) {
+                students = students.filter(s => s.id !== studentId);
+                saveData();
+                updateStats();
+                updateStudentsTable();
+                alert('طالب علم حذف کر دیا گیا ہے۔');
+            }
+        }
+
+        function editPayment(paymentId) {
+            // Implementation for editing payment
+            alert('فیس ترمیم کی سہولت جلد دستیاب ہوگی۔');
+        }
+
+        function deletePayment(paymentId) {
+            if (confirm('کیا آپ واقعی یہ فیس ریکارڈ حذف کرنا چاہتے ہیں؟')) {
+                payments = payments.filter(p => p.id !== paymentId);
+                saveData();
+                updateStats();
+                updatePaymentsTable();
+                alert('فیس ریکارڈ حذف کر دیا گیا ہے۔');
+            }
+        }
+
+        // Form submissions
+        document.getElementById('addStudentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const student = {
+                id: Date.now(),
+                studentName: document.getElementById('studentName').value,
+                fatherName: document.getElementById('fatherName').value,
+                age: parseInt(document.getElementById('studentAge').value),
+                gender: document.getElementById('studentGender').value,
+                phone: document.getElementById('studentPhone').value,
+                course: document.getElementById('studentCourse').value,
+                address: document.getElementById('studentAddress').value,
+                admissionDate: new Date().toISOString()
+            };
+            
+            students.push(student);
+            saveData();
+            updateStats();
+            updateStudentsTable();
+            closeModal('addStudentModal');
+            this.reset();
+            
+            alert(`${student.studentName} کو کامیابی سے شامل کر دیا گیا ہے۔`);
+        });
+
+        function generateReport() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            
+            if (!startDate || !endDate) {
+                alert('براہ کرم تاریخ کا انتخاب کریں۔');
+                return;
+            }
+            
+            const report = `
+رپورٹ: ${startDate} سے ${endDate} تک
+
+کل طلباء: ${students.length}
+کل داخلہ فارمز: ${applications.length}
+کل فیس: ${payments.reduce((sum, p) => sum + p.amount, 0).toLocaleString()} روپے
+
+کورس وائز تفصیل:
+- بنیادی حفظ: ${students.filter(s => s.course === 'basic-hifz').length} طلباء
+- مکمل حفظ: ${students.filter(s => s.course === 'complete-hifz').length} طلباء
+- تجوید: ${students.filter(s => s.course === 'tajweed').length} طلباء
+            `;
+            
+            document.getElementById('reportContent').innerHTML = `<pre>${report}</pre>`;
+        }
+
+        function saveSettings() {
+            const settings = {
+                instituteName: document.getElementById('instituteName').value,
+                instituteAddress: document.getElementById('instituteAddress').value,
+                institutePhone: document.getElementById('institutePhone').value,
+                instituteEmail: document.getElementById('instituteEmail').value
+            };
+            
+            localStorage.setItem('hafizQuranSettings', JSON.stringify(settings));
+            alert('سیٹنگز محفوظ کر دی گئی ہیں۔');
+        }
+
+        // Load settings on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedSettings = localStorage.getItem('hafizQuranSettings');
+            if (savedSettings) {
+                const settings = JSON.parse(savedSettings);
+                document.getElementById('instituteName').value = settings.instituteName;
+                document.getElementById('instituteAddress').value = settings.instituteAddress;
+                document.getElementById('institutePhone').value = settings.institutePhone;
+                document.getElementById('instituteEmail').value = settings.instituteEmail;
+            }
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

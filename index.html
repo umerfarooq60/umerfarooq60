@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حافظ قرآن - Hafiz Quran</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .arabic {
+            font-family: 'Amiri', serif;
+            direction: rtl;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2c5530, #1e3a21);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #f4d03f;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #f4d03f;
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .mobile-menu span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(44, 85, 48, 0.8), rgba(30, 58, 33, 0.9)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23f4d03f" width="1200" height="800"/><g fill="%23fff" opacity="0.1"><circle cx="200" cy="150" r="50"/><circle cx="800" cy="300" r="30"/><circle cx="400" cy="500" r="40"/><circle cx="1000" cy="600" r="35"/></g></svg>');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero-content .arabic {
+            font-size: 2.5rem;
+            color: #f4d03f;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #f4d03f;
+            color: #2c5530;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(244, 208, 63, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(244, 208, 63, 0.4);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 80px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #2c5530;
+            margin-bottom: 1rem;
+        }
+
+        .section-title .arabic {
+            font-size: 2rem;
+            color: #f4d03f;
+            margin-bottom: 1rem;
+        }
+
+        /* About Section */
+        .about {
+            background: #f8f9fa;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature i {
+            font-size: 3rem;
+            color: #f4d03f;
+            margin-bottom: 1rem;
+        }
+
+        .feature h3 {
+            color: #2c5530;
+            margin-bottom: 1rem;
+        }
+
+        /* Courses Section */
+        .courses {
+            background: white;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            border-color: #f4d03f;
+        }
+
+        .course-card h3 {
+            color: #2c5530;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .course-card .arabic {
+            color: #f4d03f;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .course-card p {
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+
+        .course-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c5530;
+            margin-bottom: 1rem;
+        }
+
+        /* Admission Section */
+        .admission {
+            background: #f8f9fa;
+        }
+
+        .admission-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+        }
+
+        .admission-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .admission-info h3 {
+            color: #2c5530;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .admission-info ul,
+        .admission-info ol {
+            margin-bottom: 2rem;
+            padding-right: 1.5rem;
+        }
+
+        .admission-info li {
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        .admission-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .admission-form h3 {
+            color: #2c5530;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .admission-form .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .admission-form .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c5530;
+            font-weight: 500;
+        }
+
+        .admission-form .form-group input,
+        .admission-form .form-group select,
+        .admission-form .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .admission-form .form-group input:focus,
+        .admission-form .form-group select:focus,
+        .admission-form .form-group textarea:focus {
+            outline: none;
+            border-color: #f4d03f;
+        }
+
+        .admission-form .submit-btn {
+            width: 100%;
+            background: #f4d03f;
+            color: #2c5530;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .admission-form .submit-btn:hover {
+            background: #e6c842;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(244, 208, 63, 0.3);
+        }
+
+        /* Online Classes Section */
+        .online-classes {
+            background: white;
+        }
+
+        .online-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+
+        .class-schedule h3 {
+            color: #2c5530;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+        }
+
+        .schedule-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .schedule-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .schedule-card:hover {
+            border-color: #f4d03f;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .schedule-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .schedule-header h4 {
+            color: #2c5530;
+            font-size: 1.2rem;
+        }
+
+        .class-time {
+            background: #f4d03f;
+            color: #2c5530;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .schedule-details p {
+            margin-bottom: 0.5rem;
+            color: #666;
+            display: flex;
+            align-items: center;
+        }
+
+        .schedule-details i {
+            margin-left: 0.5rem;
+            color: #f4d03f;
+            width: 16px;
+        }
+
+        .zoom-link {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .zoom-btn {
+            display: inline-block;
+            background: #2e7d32;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .zoom-btn:hover {
+            background: #1b5e20;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+        }
+
+        .zoom-btn i {
+            margin-left: 0.5rem;
+        }
+
+        .meeting-id,
+        .passcode {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 0.25rem 0;
+            font-family: monospace;
+        }
+
+        .zoom-instructions {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .zoom-instructions h3 {
+            color: #2c5530;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .instructions-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .instruction-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .instruction-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .instruction-card i {
+            font-size: 2rem;
+            color: #f4d03f;
+            margin-bottom: 1rem;
+        }
+
+        .instruction-card h4 {
+            color: #2c5530;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .instruction-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: #2c5530;
+            color: white;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info h3 {
+            margin-bottom: 1rem;
+            color: #f4d03f;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .contact-item i {
+            margin-left: 1rem;
+            color: #f4d03f;
+        }
+
+        .contact-form {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #f4d03f;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.9);
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: #f4d03f;
+            color: #2c5530;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(244, 208, 63, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: #1e3a21;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #f4d03f;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content .arabic {
+                font-size: 2rem;
+            }
+
+            .about-content,
+            .contact-content,
+            .admission-content,
+            .online-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .section-title .arabic {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Scroll animations */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .scroll-animate.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">حافظ قرآن</div>
+            <ul class="nav-links">
+                <li><a href="#home">ہوم</a></li>
+                <li><a href="#about">ہمارے بارے میں</a></li>
+                <li><a href="#courses">کورسز</a></li>
+                <li><a href="#admission">داخلہ</a></li>
+                <li><a href="#online-classes">آن لائن کلاسز</a></li>
+                <li><a href="#contact">رابطہ</a></li>
+                <li><a href="student-portal.html" target="_blank">طالب علم پورٹل</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content fade-in-up">
+            <h1>حافظ قرآن</h1>
+            <div class="arabic">وَلَقَدْ يَسَّرْنَا الْقُرْآنَ لِلذِّكْرِ فَهَلْ مِنْ مُدَّكِرٍ</div>
+            <p>قرآن مجید حفظ کرنے کا بہترین اور آسان طریقہ سیکھیں۔ ہمارے تجربہ کار اساتذہ کی رہنمائی میں قرآن کو دل سے یاد کریں۔</p>
+            <a href="#courses" class="cta-button">ابھی شروع کریں</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>ہمارے بارے میں</h2>
+                <div class="arabic">مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ فَهُوَ خَيْرُ النَّاسِ</div>
+            </div>
+            <div class="about-content scroll-animate">
+                <div class="about-text">
+                    <p>حافظ قرآن ایک معتبر اور تجربہ کار ادارہ ہے جو قرآن مجید کی تعلیم اور حفظ کے لیے وقف ہے۔ ہم 15 سال سے قرآن کی تعلیم دے رہے ہیں اور ہزاروں طلباء کو قرآن حفظ کرنے میں مدد کر چکے ہیں۔</p>
+                    <p>ہمارا مقصد قرآن مجید کو صحیح تلفظ اور تجوید کے ساتھ یاد کرانا ہے تاکہ ہر طالب علم قرآن کو دل سے یاد کر سکے۔</p>
+                </div>
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-book-quran"></i>
+                        <h3>تجوید</h3>
+                        <p>صحیح تلفظ اور تجوید کے ساتھ قرآن کی تعلیم</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-users"></i>
+                        <h3>تجربہ کار اساتذہ</h3>
+                        <p>15 سال کا تجربہ رکھنے والے ماہر اساتذہ</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-clock"></i>
+                        <h3>لچکدار وقت</h3>
+                        <p>آپ کی سہولت کے لیے مختلف اوقات میں کلاسز</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section id="courses" class="courses">
+        <div class="container">
+            <div class="section-title">
+                <h2>ہمارے کورسز</h2>
+                <div class="arabic">وَتَعَاوَنُوا عَلَى الْبِرِّ وَالتَّقْوَى</div>
+            </div>
+            <div class="course-grid scroll-animate">
+                <div class="course-card">
+                    <h3>بنیادی حفظ</h3>
+                    <div class="arabic">الجزء الأول</div>
+                    <p>قرآن مجید کے پہلے جزو سے شروع کرتے ہوئے بنیادی حفظ کی تعلیم</p>
+                    <div class="course-price">2,500 روپے/مہینہ</div>
+                    <a href="#contact" class="cta-button">انرول کریں</a>
+                </div>
+                <div class="course-card">
+                    <h3>مکمل حفظ</h3>
+                    <div class="arabic">حفظ القرآن الكريم</div>
+                    <p>پورے قرآن مجید کو حفظ کرنے کا مکمل کورس</p>
+                    <div class="course-price">3,500 روپے/مہینہ</div>
+                    <a href="#contact" class="cta-button">انرول کریں</a>
+                </div>
+                <div class="course-card">
+                    <h3>تجوید کورس</h3>
+                    <div class="arabic">علم التجويد</div>
+                    <p>قرآن کی صحیح تلفظ اور تجوید کی تعلیم</p>
+                    <div class="course-price">2,000 روپے/مہینہ</div>
+                    <a href="#contact" class="cta-button">انرول کریں</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admission Section -->
+    <section id="admission" class="admission">
+        <div class="container">
+            <div class="section-title">
+                <h2>داخلہ فارم</h2>
+                <div class="arabic">وَمَنْ يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ</div>
+            </div>
+            <div class="admission-content scroll-animate">
+                <div class="admission-info">
+                    <h3>داخلے کی شرائط</h3>
+                    <ul>
+                        <li>عمر: 5 سال سے 25 سال تک</li>
+                        <li>اردو زبان کا بنیادی علم</li>
+                        <li>قرآن پڑھنے کا بنیادی علم</li>
+                        <li>داخلے کا ٹیسٹ پاس کرنا</li>
+                    </ul>
+                    <h3>داخلے کا طریقہ کار</h3>
+                    <ol>
+                        <li>نیچے دیا گیا فارم بھریں</li>
+                        <li>ہم آپ سے رابطہ کریں گے</li>
+                        <li>داخلے کا ٹیسٹ لیں گے</li>
+                        <li>کامیابی کی صورت میں داخلہ ملے گا</li>
+                    </ol>
+                </div>
+                <form class="admission-form">
+                    <h3>داخلہ فارم</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="student-name">طلبہ کا نام *</label>
+                            <input type="text" id="student-name" name="student-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="father-name">والد کا نام *</label>
+                            <input type="text" id="father-name" name="father-name" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="age">عمر *</label>
+                            <input type="number" id="age" name="age" min="5" max="25" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">جنس *</label>
+                            <select id="gender" name="gender" required>
+                                <option value="">منتخب کریں</option>
+                                <option value="male">مرد</option>
+                                <option value="female">خواتین</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="parent-phone">والدین کا فون *</label>
+                            <input type="tel" id="parent-phone" name="parent-phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="course-interest">کورس میں دلچسپی *</label>
+                            <select id="course-interest" name="course-interest" required>
+                                <option value="">منتخب کریں</option>
+                                <option value="basic-hifz">بنیادی حفظ</option>
+                                <option value="complete-hifz">مکمل حفظ</option>
+                                <option value="tajweed">تجوید</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">پتہ *</label>
+                        <textarea id="address" name="address" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="quran-knowledge">قرآن کی موجودہ معلومات</label>
+                        <textarea id="quran-knowledge" name="quran-knowledge" placeholder="قرآن پڑھنے، حفظ وغیرہ کی معلومات"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">داخلہ فارم جمع کریں</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Online Classes Section -->
+    <section id="online-classes" class="online-classes">
+        <div class="container">
+            <div class="section-title">
+                <h2>آن لائن کلاسز</h2>
+                <div class="arabic">وَمَا أُوتِيتُمْ مِنَ الْعِلْمِ إِلَّا قَلِيلًا</div>
+            </div>
+            <div class="online-content scroll-animate">
+                <div class="class-schedule">
+                    <h3>کلاس شیڈول</h3>
+                    <div class="schedule-grid">
+                        <div class="schedule-card">
+                            <div class="schedule-header">
+                                <h4>بنیادی حفظ کلاس</h4>
+                                <span class="class-time">صبح 9:00 - 10:30</span>
+                            </div>
+                            <div class="schedule-details">
+                                <p><i class="fas fa-calendar"></i> پیر سے جمعہ</p>
+                                <p><i class="fas fa-user"></i> استاد: مولانا احمد</p>
+                                <p><i class="fas fa-video"></i> Zoom کلاس</p>
+                            </div>
+                            <div class="zoom-link">
+                                <a href="#" class="zoom-btn" onclick="joinZoomClass('basic-hifz')">
+                                    <i class="fab fa-zoom"></i> کلاس میں شامل ہوں
+                                </a>
+                                <p class="meeting-id">میٹنگ ID: 123 456 7890</p>
+                                <p class="passcode">پاس کوڈ: 123456</p>
+                            </div>
+                        </div>
+
+                        <div class="schedule-card">
+                            <div class="schedule-header">
+                                <h4>مکمل حفظ کلاس</h4>
+                                <span class="class-time">شام 5:00 - 6:30</span>
+                            </div>
+                            <div class="schedule-details">
+                                <p><i class="fas fa-calendar"></i> پیر سے جمعہ</p>
+                                <p><i class="fas fa-user"></i> استاد: مولانا محمد</p>
+                                <p><i class="fas fa-video"></i> Zoom کلاس</p>
+                            </div>
+                            <div class="zoom-link">
+                                <a href="#" class="zoom-btn" onclick="joinZoomClass('complete-hifz')">
+                                    <i class="fab fa-zoom"></i> کلاس میں شامل ہوں
+                                </a>
+                                <p class="meeting-id">میٹنگ ID: 234 567 8901</p>
+                                <p class="passcode">پاس کوڈ: 234567</p>
+                            </div>
+                        </div>
+
+                        <div class="schedule-card">
+                            <div class="schedule-header">
+                                <h4>تجوید کلاس</h4>
+                                <span class="class-time">صبح 11:00 - 12:30</span>
+                            </div>
+                            <div class="schedule-details">
+                                <p><i class="fas fa-calendar"></i> پیر سے جمعہ</p>
+                                <p><i class="fas fa-user"></i> استاد: مولانا علی</p>
+                                <p><i class="fas fa-video"></i> Zoom کلاس</p>
+                            </div>
+                            <div class="zoom-link">
+                                <a href="#" class="zoom-btn" onclick="joinZoomClass('tajweed')">
+                                    <i class="fab fa-zoom"></i> کلاس میں شامل ہوں
+                                </a>
+                                <p class="meeting-id">میٹنگ ID: 345 678 9012</p>
+                                <p class="passcode">پاس کوڈ: 345678</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="zoom-instructions">
+                    <h3>Zoom استعمال کرنے کا طریقہ</h3>
+                    <div class="instructions-grid">
+                        <div class="instruction-card">
+                            <i class="fas fa-download"></i>
+                            <h4>1. Zoom ڈاؤن لوڈ کریں</h4>
+                            <p>اپنے فون یا کمپیوٹر پر Zoom app ڈاؤن لوڈ کریں</p>
+                        </div>
+                        <div class="instruction-card">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <h4>2. کلاس میں شامل ہوں</h4>
+                            <p>مذکورہ میٹنگ ID اور پاس کوڈ استعمال کریں</p>
+                        </div>
+                        <div class="instruction-card">
+                            <i class="fas fa-microphone"></i>
+                            <h4>3. آڈیو/ویڈیو</h4>
+                            <p>کلاس شروع ہونے سے پہلے آڈیو اور ویڈیو چیک کریں</p>
+                        </div>
+                        <div class="instruction-card">
+                            <i class="fas fa-comments"></i>
+                            <h4>4. سوالات</h4>
+                            <p>کوئی سوال ہو تو چاٹ یا ہاتھ اٹھا کر پوچھیں</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>رابطہ کریں</h2>
+                <div class="arabic">وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ</div>
+            </div>
+            <div class="contact-content scroll-animate">
+                <div class="contact-info">
+                    <h3>ہمارے رابطے کی تفصیلات</h3>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+92 300 1234567</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>info@hafizquran.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>کراچی، پاکستان</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <span>صبح 8:00 - شام 8:00</span>
+                    </div>
+                </div>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label for="name">نام</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">ای میل</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">فون نمبر</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">پیغام</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">پیغام بھیجیں</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-text">
+                <p>&copy; 2024 حافظ قرآن. تمام حقوق محفوظ ہیں۔</p>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all scroll-animate elements
+        document.querySelectorAll('.scroll-animate').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Mobile menu toggle
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Form submission
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const phone = formData.get('phone');
+            const message = formData.get('message');
+            
+            // Basic validation
+            if (!name || !email || !phone || !message) {
+                alert('براہ کرم تمام فیلڈز بھریں۔');
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('براہ کرم درست ای میل ایڈریس درج کریں۔');
+                return;
+            }
+            
+            // Phone validation (Pakistani format)
+            const phoneRegex = /^(\+92|0)?[0-9]{10}$/;
+            if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
+                alert('براہ کرم درست فون نمبر درج کریں۔');
+                return;
+            }
+            
+            // Show success message with more details
+            const successMessage = `
+شکریہ ${name}!
+آپ کا پیغام کامیابی سے بھیج دیا گیا ہے۔
+ہم آپ سے جلد رابطہ کریں گے۔
+فون: ${phone}
+ای میل: ${email}
+            `;
+            
+            alert(successMessage);
+            
+            // Reset form
+            this.reset();
+            
+            // Store contact form data in localStorage for dashboard
+            const contactData = {
+                id: Date.now(),
+                name,
+                email,
+                phone,
+                message,
+                timestamp: new Date().toISOString(),
+                type: 'contact'
+            };
+
+            // Get existing contacts from localStorage
+            let contacts = [];
+            const existingContacts = localStorage.getItem('hafizQuranContacts');
+            if (existingContacts) {
+                contacts = JSON.parse(existingContacts);
+            }
+
+            // Add new contact
+            contacts.push(contactData);
+
+            // Save back to localStorage
+            localStorage.setItem('hafizQuranContacts', JSON.stringify(contacts));
+
+            // Log form data
+            console.log('Contact form submitted:', contactData);
+        });
+
+        // Admission form submission
+        document.querySelector('.admission-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const studentName = formData.get('student-name');
+            const fatherName = formData.get('father-name');
+            const age = formData.get('age');
+            const gender = formData.get('gender');
+            const parentPhone = formData.get('parent-phone');
+            const courseInterest = formData.get('course-interest');
+            const address = formData.get('address');
+            const quranKnowledge = formData.get('quran-knowledge');
+            
+            // Validation
+            if (!studentName || !fatherName || !age || !gender || !parentPhone || !courseInterest || !address) {
+                alert('براہ کرم تمام ضروری فیلڈز بھریں۔');
+                return;
+            }
+            
+            // Age validation
+            if (age < 5 || age > 25) {
+                alert('عمر 5 سے 25 سال کے درمیان ہونی چاہیے۔');
+                return;
+            }
+            
+            // Phone validation
+            const phoneRegex = /^(\+92|0)?[0-9]{10}$/;
+            if (!phoneRegex.test(parentPhone.replace(/\s/g, ''))) {
+                alert('براہ کرم درست فون نمبر درج کریں۔');
+                return;
+            }
+            
+            // Success message
+            const successMessage = `
+السلام علیکم ${studentName}!
+آپ کا داخلہ فارم کامیابی سے جمع ہو گیا ہے۔
+
+طلبی کی تفصیلات:
+نام: ${studentName}
+والد کا نام: ${fatherName}
+عمر: ${age} سال
+جنس: ${gender === 'male' ? 'مرد' : 'خواتین'}
+فون: ${parentPhone}
+کورس: ${courseInterest}
+پتہ: ${address}
+
+ہم آپ سے جلد رابطہ کریں گے اور داخلے کا ٹیسٹ کا وقت طے کریں گے۔
+            `;
+            
+            alert(successMessage);
+            
+            // Reset form
+            this.reset();
+            
+            // Store application data in localStorage for dashboard
+            const applicationData = {
+                id: Date.now(),
+                studentName,
+                fatherName,
+                age: parseInt(age),
+                gender,
+                parentPhone,
+                courseInterest,
+                address,
+                quranKnowledge,
+                date: new Date().toISOString(),
+                status: 'pending'
+            };
+
+            // Get existing applications from localStorage
+            let applications = [];
+            const existingApplications = localStorage.getItem('hafizQuranApplications');
+            if (existingApplications) {
+                applications = JSON.parse(existingApplications);
+            }
+
+            // Add new application
+            applications.push(applicationData);
+
+            // Save back to localStorage
+            localStorage.setItem('hafizQuranApplications', JSON.stringify(applications));
+
+            // Log form data
+            console.log('Admission form submitted:', applicationData);
+        });
+
+        // Zoom class functionality
+        function joinZoomClass(courseType) {
+            const zoomLinks = {
+                'basic-hifz': {
+                    url: 'https://zoom.us/j/1234567890',
+                    id: '123 456 7890',
+                    passcode: '123456',
+                    name: 'بنیادی حفظ کلاس'
+                },
+                'complete-hifz': {
+                    url: 'https://zoom.us/j/2345678901',
+                    id: '234 567 8901',
+                    passcode: '234567',
+                    name: 'مکمل حفظ کلاس'
+                },
+                'tajweed': {
+                    url: 'https://zoom.us/j/3456789012',
+                    id: '345 678 9012',
+                    passcode: '345678',
+                    name: 'تجوید کلاس'
+                }
+            };
+
+            const classInfo = zoomLinks[courseType];
+            if (classInfo) {
+                const confirmMessage = `
+${classInfo.name} میں شامل ہونے کے لیے:
+
+میٹنگ ID: ${classInfo.id}
+پاس کوڈ: ${classInfo.passcode}
+
+کیا آپ Zoom کلاس میں شامل ہونا چاہتے ہیں؟
+                `;
+                
+                if (confirm(confirmMessage)) {
+                    // Open Zoom link in new tab
+                    window.open(classInfo.url, '_blank');
+                    
+                    // Show additional instructions
+                    setTimeout(() => {
+                        alert(`
+Zoom کلاس میں شامل ہونے کے لیے:
+1. Zoom app کھولیں
+2. "Join Meeting" پر کلک کریں
+3. میٹنگ ID: ${classInfo.id} درج کریں
+4. پاس کوڈ: ${classInfo.passcode} درج کریں
+5. اپنا نام درج کرکے "Join" پر کلک کریں
+                        `);
+                    }, 1000);
+                }
+            }
+        }
+
+        // Header background change on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(44, 85, 48, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #2c5530, #1e3a21)';
+                header.style.backdropFilter = 'none';
+            }
+        });
+
+        // Add some interactive effects
+        document.querySelectorAll('.course-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
